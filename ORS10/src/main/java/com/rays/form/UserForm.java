@@ -2,18 +2,24 @@ package com.rays.form;
 
 import java.util.Date;
 
+import javax.validation.constraints.NotEmpty;
+
 import com.rays.common.BaseDTO;
 import com.rays.common.BaseForm;
 import com.rays.dto.UserDTO;
 
 public class UserForm extends BaseForm {
 
+	@NotEmpty(message = "firstName is required")
 	private String firstName;
 
+	@NotEmpty(message = "lastName is required")
 	private String lastName;
 
+	@NotEmpty(message = "loginId is required")
 	private String loginId;
 
+	@NotEmpty(message = "password is required")
 	private String password;
 
 	private Date dob;

@@ -1,5 +1,7 @@
 package com.rays.common;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,8 +23,8 @@ public class BaseServiceImpl<T extends BaseDTO, D extends BaseDAOInt<T>> impleme
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED)
-	public void delete(T dto) {
-		baseDao.delete(dto);
+	public void delete(Long id) {
+		baseDao.delete(id);
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED)
@@ -34,6 +36,17 @@ public class BaseServiceImpl<T extends BaseDTO, D extends BaseDAOInt<T>> impleme
 			id = add(dto);
 		}
 		return id;
+	}
+
+	@Transactional(readOnly = true)
+	public T findById(Long id) {
+		T dto = baseDao.findByPk(id);
+		return dto;
+	}
+
+	@Transactional(readOnly = true)
+	public List search(T dto, int pageNo, int pageSize) {
+		return baseDao.search(dto, pageNo, pageSize);
 	}
 
 }

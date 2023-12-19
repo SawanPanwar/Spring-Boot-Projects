@@ -13,16 +13,6 @@ public class ORSResponse {
 
 	private Map<String, Object> result = new HashMap<String, Object>();
 
-	private String name = null;
-	
-	public void setName(String name) {
-		this.name = name;
-	}
-	
-	public String getName() {
-		return name;
-	}
-
 	public ORSResponse() {
 	}
 
