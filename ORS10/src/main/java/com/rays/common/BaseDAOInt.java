@@ -8,7 +8,7 @@ public interface BaseDAOInt<T extends BaseDTO> {
 
 	public void update(T dto);
 
-	public void delete(Long id);
+	public void delete(T dto);
 
 	public T findByUniqueKey(String attribute, String value);
 

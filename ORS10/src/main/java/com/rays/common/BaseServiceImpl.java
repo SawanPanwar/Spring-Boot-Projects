@@ -24,7 +24,11 @@ public class BaseServiceImpl<T extends BaseDTO, D extends BaseDAOInt<T>> impleme
 
 	@Transactional(propagation = Propagation.REQUIRED)
 	public void delete(Long id) {
-		baseDao.delete(id);
+		T dto = findById(id);
+		if (dto == null) {
+			throw new RuntimeException("Record not found...!!!");
+		}
+		baseDao.delete(dto);
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED)

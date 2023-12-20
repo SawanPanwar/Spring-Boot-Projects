@@ -19,17 +19,23 @@ public abstract class BaseDAOImpl<T extends BaseDTO> implements BaseDAOInt<T> {
 
 	public abstract List<Predicate> getWhereClause(T dto, CriteriaBuilder builder, Root qRoot);
 
+	public void populate(T dto) {
+		
+	}
+	
 	public long add(T dto) {
+		populate(dto);
 		entityManager.persist(dto);
 		return dto.getId();
 	}
 
 	public void update(T dto) {
+		populate(dto);
 		entityManager.merge(dto);
 	}
 
-	public void delete(Long id) {
-		entityManager.remove(id);
+	public void delete(T dto) {
+		entityManager.remove(dto);
 	}
 
 	public T findByPk(Long id) {

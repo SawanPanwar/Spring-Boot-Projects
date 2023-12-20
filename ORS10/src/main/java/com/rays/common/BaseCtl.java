@@ -61,6 +61,7 @@ public class BaseCtl<F extends BaseForm, T extends BaseDTO, S extends BaseServic
 			baseService.add(dto);
 			res.addMessage("User Registered Successfully..!!!");
 		}
+		res.addData(dto.getId());
 		return res;
 	}
 
@@ -81,19 +82,23 @@ public class BaseCtl<F extends BaseForm, T extends BaseDTO, S extends BaseServic
 
 		ORSResponse res = new ORSResponse(true);
 
-		for (String id : ids) {
+		try {
 
-			baseService.delete(Long.parseLong(id));
+			for (String id : ids) {
+				baseService.delete(Long.parseLong(id));
+			}
 
+			T dto = (T) form.getDto();
+
+			List list = baseService.search(dto, pageNo, 5);
+
+			res.addData(list);
+
+			res.addMessage("Records deleted successfully..!!!");
+
+		} catch (Exception e) {
+			res.addMessage(e.getMessage());
 		}
-
-		T dto = (T) form.getDto();
-
-		List list = baseService.search(dto, pageNo, 5);
-
-		res.addData(list);
-
-		res.addMessage("Records deleted successfully..!!!");
 
 		return res;
 	}
@@ -106,8 +111,6 @@ public class BaseCtl<F extends BaseForm, T extends BaseDTO, S extends BaseServic
 		T dto = (T) form.getDto();
 
 		List list = baseService.search(dto, pageNo, 5);
-
-		System.out.println(list);
 
 		res.addData(list);
 
