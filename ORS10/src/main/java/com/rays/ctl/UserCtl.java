@@ -1,7 +1,7 @@
 package com.rays.ctl;
 
-import java.io.IOException;
 import java.io.OutputStream;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.rays.common.BaseCtl;
+import com.rays.common.DropDownList;
 import com.rays.common.ORSResponse;
 import com.rays.common.attachment.AttachmentDTO;
 import com.rays.common.attachment.AttachmentServiceInt;
@@ -30,6 +31,21 @@ public class UserCtl extends BaseCtl<UserForm, UserDTO, UserServiceInt> {
 
 	@Autowired
 	public AttachmentServiceInt attachmentService;
+
+	@GetMapping("preload")
+	public ORSResponse preload() {
+
+		ORSResponse res = new ORSResponse();
+
+		UserDTO dto = new UserDTO();
+
+		List<DropDownList> list = baseService.search(dto, 0, 0);
+
+		res.addResult("userList", list);
+
+		return res;
+
+	}
 
 	@PostMapping("/profilePic/{userId}")
 	public ORSResponse uploadPic(@PathVariable Long userId, @RequestParam("file") MultipartFile file,
@@ -68,15 +84,16 @@ public class UserCtl extends BaseCtl<UserForm, UserDTO, UserServiceInt> {
 	@GetMapping("/profilePic/{userId}")
 	public @ResponseBody void downloadPic(@PathVariable Long userId, HttpServletResponse response) {
 
-		UserDTO dto = baseService.findById(userId);
-
-		System.out.println(dto.getImageId());
-
-		AttachmentDTO attachmentDTO = attachmentService.findById(dto.getImageId());
-
-		System.out.println(attachmentDTO.getName());
-
 		try {
+
+			UserDTO dto = baseService.findById(userId);
+
+			AttachmentDTO attachmentDTO = null;
+
+			if (dto != null) {
+				attachmentDTO = attachmentService.findById(dto.getImageId());
+			}
+
 			if (attachmentDTO != null) {
 				response.setContentType(attachmentDTO.getType());
 				OutputStream out = response.getOutputStream();
@@ -85,7 +102,7 @@ public class UserCtl extends BaseCtl<UserForm, UserDTO, UserServiceInt> {
 			} else {
 				response.getWriter().write("ERROR: File not found");
 			}
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 

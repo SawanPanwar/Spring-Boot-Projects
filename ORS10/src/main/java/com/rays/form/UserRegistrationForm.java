@@ -15,7 +15,7 @@ public class UserRegistrationForm extends BaseForm {
 	private String lastName;
 
 	@NotEmpty(message = "please enter login")
-	private String login;
+	private String loginId;
 
 	@NotEmpty(message = "please enter password")
 	private String password;
@@ -44,12 +44,12 @@ public class UserRegistrationForm extends BaseForm {
 		this.lastName = lastName;
 	}
 
-	public String getLogin() {
-		return login;
+	public String getLoginId() {
+		return loginId;
 	}
 
-	public void setLoginId(String login) {
-		this.login = login;
+	public void setLoginId(String loginId) {
+		this.loginId = loginId;
 	}
 
 	public String getPassword() {

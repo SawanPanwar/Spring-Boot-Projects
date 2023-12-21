@@ -52,4 +52,8 @@ public class AttachmentBaseDTO extends BaseDTO {
 		this.userId = userId;
 	}
 
+	public String getValue() {
+		return null;
+	}
+
 }

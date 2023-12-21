@@ -100,4 +100,8 @@ public class UserDTO extends BaseDTO {
 		this.imageId = imageId;
 	}
 
+	public String getValue() {
+		return firstName + " " + lastName;
+	}
+
 }
