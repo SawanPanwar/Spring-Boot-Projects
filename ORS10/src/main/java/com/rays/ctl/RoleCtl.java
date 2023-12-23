@@ -20,13 +20,15 @@ public class RoleCtl extends BaseCtl<RoleForm, RoleDTO, RoleServiceInt> {
 	@GetMapping("preload")
 	public ORSResponse preload() {
 
+		System.out.println("role ctl = preload()");
+
 		ORSResponse res = new ORSResponse();
 
 		RoleDTO dto = new RoleDTO();
 
-		List<DropDownList> list = baseService.search(dto, 0, 0);
+		List<DropDownList> roleList = baseService.search(dto, 0, 0);
 
-		res.addResult("roleList", list);
+		res.addResult("roleList", roleList);
 
 		return res;
 

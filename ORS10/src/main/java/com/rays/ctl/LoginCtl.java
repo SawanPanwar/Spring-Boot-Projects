@@ -33,10 +33,12 @@ public class LoginCtl extends BaseCtl<UserForm, UserDTO, UserServiceInt> {
 
 		if (dto != null) {
 
+			res.setSuccess(true);
 			res.addData(dto);
 
 		} else {
 
+			res.setSuccess(false);
 			res.addMessage("Login ID & Password is invalid...!!!");
 		}
 
