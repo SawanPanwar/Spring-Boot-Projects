@@ -36,4 +36,15 @@ public class BaseServiceImpl<T extends BaseDTO, D extends BaseDAOInt<T>> impleme
 		}
 	}
 
+	@Transactional(propagation = Propagation.REQUIRED)
+	public long save(T dto) {
+		Long id = dto.getId();
+		if (id != null && id > 0) {
+			update(dto);
+		} else {
+			id = add(dto);
+		}
+		return id;
+	}
+
 }

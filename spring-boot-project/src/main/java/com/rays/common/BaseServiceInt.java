@@ -10,4 +10,6 @@ public interface BaseServiceInt<T extends BaseDTO> {
 
 	public void delete(long id);
 
+	public long save(T dto);
+
 }

@@ -12,4 +12,17 @@ public class BaseForm {
 		this.id = id;
 	}
 
+	public BaseDTO getDto() {
+		return null;
+	}
+
+	public <T extends BaseDTO> T initDTO(T dto) {
+		if (id != null && id > 0) {
+			dto.setId(id);
+		} else {
+			dto.setId(null);
+		}
+		return dto;
+	}
+
 }

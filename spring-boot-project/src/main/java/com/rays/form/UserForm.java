@@ -2,7 +2,9 @@ package com.rays.form;
 
 import java.util.Date;
 
+import com.rays.common.BaseDTO;
 import com.rays.common.BaseForm;
+import com.rays.dto.UserDTO;
 
 public class UserForm extends BaseForm {
 
@@ -57,6 +59,17 @@ public class UserForm extends BaseForm {
 
 	public void setDob(Date dob) {
 		this.dob = dob;
+	}
+
+	@Override
+	public BaseDTO getDto() {
+		UserDTO dto = initDTO(new UserDTO());
+		dto.setFirstName(firstName);
+		dto.setLastName(lastName);
+		dto.setLoginId(loginId);
+		dto.setPassword(password);
+		dto.setDob(dob);
+		return dto;
 	}
 
 }
