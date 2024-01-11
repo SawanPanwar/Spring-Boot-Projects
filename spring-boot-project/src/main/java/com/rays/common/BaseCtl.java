@@ -1,9 +1,14 @@
 package com.rays.common;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,27 +19,36 @@ public class BaseCtl<F extends BaseForm, T extends BaseDTO, S extends BaseServic
 	@Autowired
 	public S baseService;
 
-	@GetMapping("test")
-	public ORSResponse test() {
+	public ORSResponse validate(BindingResult bindingResult) {
+
 		ORSResponse res = new ORSResponse();
+		res.setSuccess(true);
 
-		Map errors = new HashMap();
-		errors.put("loginId", "login is required");
-		errors.put("password", "password is required");
+		if (bindingResult.hasErrors()) {
 
-		res.addInputError(errors);
+			res.setSuccess(false);
 
-		res.addMessage("message added successfully");
+			Map<String, String> errors = new HashMap<String, String>();
 
-		res.addData("data");
+			List<FieldError> list = bindingResult.getFieldErrors();
 
-		res.addResult("list", "rolelist");
+			list.forEach(e -> {
+				errors.put(e.getField(), e.getDefaultMessage());
+			});
+			res.addInputError(errors);
+		}
 		return res;
 	}
 
 	@PostMapping("save")
-	public ORSResponse save(@RequestBody F form) {
-		ORSResponse res = new ORSResponse();
+	public ORSResponse save(@RequestBody @Valid F form, BindingResult bindingResult) {
+
+		ORSResponse res = validate(bindingResult);
+
+		if (!res.isSuccess()) {
+			return res;
+		}
+
 		T dto = (T) form.getDto();
 		if (dto.getId() != null && dto.getId() > 0) {
 			baseService.update(dto);
@@ -60,6 +74,23 @@ public class BaseCtl<F extends BaseForm, T extends BaseDTO, S extends BaseServic
 		ORSResponse res = new ORSResponse();
 		baseService.delete(id);
 		res.addMessage("data deleted successfully");
+		return res;
+	}
+
+	@PostMapping("search")
+	public ORSResponse search(@RequestBody F form) {
+
+		ORSResponse res = new ORSResponse();
+
+		T dto = (T) form.getDto();
+
+		List list = baseService.search(dto, 0, 5);
+
+		if (list.size() == 0) {
+			res.addMessage("Result not found...!!!");
+		}else {
+			res.addData(list);
+		}
 		return res;
 	}
 }

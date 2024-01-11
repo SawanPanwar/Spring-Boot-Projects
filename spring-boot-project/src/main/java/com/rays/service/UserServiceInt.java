@@ -5,4 +5,6 @@ import com.rays.dto.UserDTO;
 
 public interface UserServiceInt extends BaseServiceInt<UserDTO> {
 
+	public UserDTO authenticate(String loginId, String password);
+
 }

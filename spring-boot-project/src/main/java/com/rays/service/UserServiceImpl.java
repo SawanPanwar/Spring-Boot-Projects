@@ -11,4 +11,17 @@ import com.rays.dto.UserDTO;
 @Transactional
 public class UserServiceImpl extends BaseServiceImpl<UserDTO, UserDAOInt> implements UserServiceInt {
 
+	public UserDTO authenticate(String loginId, String password) {
+
+		UserDTO dto = baseDao.findByUniqueKey("loginId", loginId);
+		
+		if(dto != null) {
+			if(dto.getPassword().equals(password)) {	
+				return dto;
+			}
+		}
+
+		return null;
+	}
+
 }

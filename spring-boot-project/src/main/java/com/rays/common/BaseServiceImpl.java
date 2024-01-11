@@ -1,5 +1,7 @@
 package com.rays.common;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,6 +47,12 @@ public class BaseServiceImpl<T extends BaseDTO, D extends BaseDAOInt<T>> impleme
 			id = add(dto);
 		}
 		return id;
+	}
+
+	@Transactional(readOnly = true)
+	public List search(T dto, int pageNo, int pageSize) {
+		List list = baseDao.search(dto, pageNo, pageSize);
+		return list;
 	}
 
 }
