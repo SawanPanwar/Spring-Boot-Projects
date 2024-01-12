@@ -27,6 +27,9 @@ public class UserDTO extends BaseDTO {
 	@Column(name = "DOB")
 	private Date dob;
 
+	@Column(name = "IMAGE_ID")
+	private Long imageId;
+
 	public String getFirstName() {
 		return firstName;
 	}
@@ -65,6 +68,14 @@ public class UserDTO extends BaseDTO {
 
 	public void setDob(Date dob) {
 		this.dob = dob;
+	}
+
+	public Long getImageId() {
+		return imageId;
+	}
+
+	public void setImageId(Long imageId) {
+		this.imageId = imageId;
 	}
 
 }
