@@ -66,10 +66,12 @@ public class UserCtl extends BaseCtl {
 		return res;
 	}
 
-	@GetMapping("delete/{id}")
-	public ORSResponse delete(@PathVariable long id) {
+	@GetMapping("delete/{ids}")
+	public ORSResponse delete(@PathVariable long[] ids) {
 		ORSResponse res = new ORSResponse();
-		userService.delete(id);
+		for (long id : ids) {
+			userService.delete(id);
+		}
 		res.addMessage("data deleted successfully");
 		return res;
 	}
@@ -95,13 +97,13 @@ public class UserCtl extends BaseCtl {
 	public ORSResponse uploadPic(@PathVariable Long userId, @RequestParam("file") MultipartFile file,
 			HttpServletRequest req) {
 
-		UserDTO userDto = userService.findById(userId);
-
 		AttachmentDTO attachmentDto = new AttachmentDTO(file);
 
 		attachmentDto.setDescription("profile pic");
 
 		attachmentDto.setUserId(userId);
+
+		UserDTO userDto = userService.findById(userId);
 
 		if (userDto.getImageId() != null && userDto.getImageId() > 0) {
 

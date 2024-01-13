@@ -17,6 +17,9 @@ public class UserServiceImpl implements UserServiceInt {
 	@Autowired
 	public UserDAOInt dao;
 
+	@Autowired
+	public AttachmentServiceInt attachmentServiceInt;
+
 	public UserDTO authenticate(String loginId, String password) {
 
 		UserDTO dto = dao.findByUniqueKey("loginId", loginId);
@@ -37,6 +40,8 @@ public class UserServiceImpl implements UserServiceInt {
 
 	@Transactional(propagation = Propagation.REQUIRED)
 	public void update(UserDTO dto) {
+		UserDTO existDto = findById(dto.getId());
+		dto.setImageId(existDto.getImageId());
 		dao.update(dto);
 	}
 
@@ -45,6 +50,7 @@ public class UserServiceImpl implements UserServiceInt {
 		try {
 			UserDTO dto = findById(id);
 			dao.delete(dto);
+			attachmentServiceInt.delete(dto.getImageId());
 		} catch (RuntimeException e) {
 			System.out.println(e.getMessage());
 		}
