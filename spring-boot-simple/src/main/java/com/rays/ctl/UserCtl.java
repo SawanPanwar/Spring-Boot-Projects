@@ -49,6 +49,7 @@ public class UserCtl extends BaseCtl {
 		UserDTO dto = (UserDTO) form.getDto();
 		if (dto.getId() != null && dto.getId() > 0) {
 			userService.update(dto);
+			res.addData(dto.getId());
 			res.addMessage("Data Updated Successfully..!!");
 		} else {
 			long pk = userService.add(dto);

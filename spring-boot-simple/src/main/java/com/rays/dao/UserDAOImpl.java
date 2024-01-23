@@ -79,7 +79,7 @@ public class UserDAOImpl implements UserDAOInt {
 		if (dto != null) {
 
 			if (dto.getFirstName() != null && dto.getFirstName().length() > 0) {
-				predicateList.add(builder.like(qRoot.get("firstName"), dto.getFirstName()));
+				predicateList.add(builder.like(qRoot.get("firstName"), dto.getFirstName() + "%"));
 			}
 		}
 
