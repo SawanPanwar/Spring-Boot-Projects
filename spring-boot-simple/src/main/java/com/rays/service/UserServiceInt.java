@@ -18,4 +18,6 @@ public interface UserServiceInt {
 
 	public List search(UserDTO dto, int pageNo, int pageSize);
 
+	public UserDTO findByLogin(String login);
+
 }

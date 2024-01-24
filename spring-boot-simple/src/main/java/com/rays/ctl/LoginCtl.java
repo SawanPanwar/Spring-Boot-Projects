@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.rays.common.BaseCtl;
 import com.rays.common.ORSResponse;
+import com.rays.config.JWTUtil;
 import com.rays.dto.UserDTO;
 import com.rays.form.LoginForm;
 import com.rays.service.UserServiceInt;
@@ -18,6 +19,9 @@ import com.rays.service.UserServiceInt;
 @RestController
 @RequestMapping(value = "Auth")
 public class LoginCtl extends BaseCtl {
+
+	@Autowired
+	private JWTUtil jwtUtil;
 
 	@Autowired
 	public UserServiceInt service;
@@ -33,7 +37,9 @@ public class LoginCtl extends BaseCtl {
 
 		UserDTO dto = service.authenticate(form.getLoginId(), form.getPassword());
 		if (dto != null) {
+			String token = jwtUtil.generateToken(form.getLoginId());
 			res.addData(dto);
+			res.addResult("token", token);
 		} else {
 			res.addMessage("Login ID & Password is invalid..!!");
 		}

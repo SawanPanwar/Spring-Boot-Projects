@@ -79,4 +79,10 @@ public class UserServiceImpl implements UserServiceInt {
 		return list;
 	}
 
+	@Transactional(readOnly = true)
+	public UserDTO findByLogin(String login) {
+		UserDTO dto = dao.findByUniqueKey("loginId", login);
+		return dto;
+	}
+
 }
