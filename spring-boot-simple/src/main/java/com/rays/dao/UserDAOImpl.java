@@ -81,6 +81,10 @@ public class UserDAOImpl implements UserDAOInt {
 			if (dto.getFirstName() != null && dto.getFirstName().length() > 0) {
 				predicateList.add(builder.like(qRoot.get("firstName"), dto.getFirstName() + "%"));
 			}
+
+			if (dto.getId() != null && dto.getId() > 0) {
+				predicateList.add(builder.equal(qRoot.get("id"), dto.getId()));
+			}
 		}
 
 		cq.where(predicateList.toArray(new Predicate[predicateList.size()]));

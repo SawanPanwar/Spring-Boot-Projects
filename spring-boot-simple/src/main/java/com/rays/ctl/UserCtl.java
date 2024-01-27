@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.rays.common.BaseCtl;
+import com.rays.common.DropDownList;
 import com.rays.common.ORSResponse;
 import com.rays.dto.AttachmentDTO;
 import com.rays.dto.UserDTO;
@@ -36,6 +37,21 @@ public class UserCtl extends BaseCtl {
 
 	@Autowired
 	public AttachmentServiceInt attachmentService;
+
+	@GetMapping("preload")
+	public ORSResponse preload() {
+
+		ORSResponse res = new ORSResponse();
+
+		UserDTO dto = new UserDTO();
+
+		List<DropDownList> userList = userService.search(dto, 0, 0);
+
+		res.addResult("userList", userList);
+
+		return res;
+
+	}
 
 	@PostMapping("save")
 	public ORSResponse save(@RequestBody @Valid UserForm form, BindingResult bindingResult) {
