@@ -93,14 +93,14 @@ public class UserCtl extends BaseCtl {
 		return res;
 	}
 
-	@PostMapping("search")
-	public ORSResponse search(@RequestBody UserForm form) {
+	@PostMapping("search/{pageNo}")
+	public ORSResponse search(@RequestBody UserForm form, @PathVariable int pageNo) {
 
 		ORSResponse res = new ORSResponse();
 
 		UserDTO dto = (UserDTO) form.getDto();
 
-		List list = userService.search(dto, 0, 5);
+		List list = userService.search(dto, pageNo, 5);
 
 		if (list.size() == 0) {
 			res.addMessage("Result not found...!!!");
