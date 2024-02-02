@@ -8,6 +8,10 @@ import com.rays.common.BaseDTO;
 import com.rays.common.BaseForm;
 import com.rays.dto.UserDTO;
 
+/**
+ * @author Sawan
+ *
+ */
 public class UserForm extends BaseForm {
 
 	@NotEmpty(message = "firstName is required")
@@ -23,6 +27,10 @@ public class UserForm extends BaseForm {
 	private String password;
 
 	private Date dob;
+
+	private long roleId;
+
+	private String roleName;
 
 	public UserForm() {
 	}
@@ -67,6 +75,22 @@ public class UserForm extends BaseForm {
 		this.dob = dob;
 	}
 
+	public long getRoleId() {
+		return roleId;
+	}
+
+	public void setRoleId(long roleId) {
+		this.roleId = roleId;
+	}
+
+	public String getRoleName() {
+		return roleName;
+	}
+
+	public void setRoleName(String roleName) {
+		this.roleName = roleName;
+	}
+
 	@Override
 	public BaseDTO getDto() {
 		UserDTO dto = initDTO(new UserDTO());
@@ -75,6 +99,7 @@ public class UserForm extends BaseForm {
 		dto.setLoginId(loginId);
 		dto.setPassword(password);
 		dto.setDob(dob);
+		dto.setRoleId(roleId);
 		return dto;
 	}
 

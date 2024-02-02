@@ -23,9 +23,11 @@ import com.rays.common.BaseCtl;
 import com.rays.common.DropDownList;
 import com.rays.common.ORSResponse;
 import com.rays.dto.AttachmentDTO;
+import com.rays.dto.RoleDTO;
 import com.rays.dto.UserDTO;
 import com.rays.form.UserForm;
 import com.rays.service.AttachmentServiceInt;
+import com.rays.service.RoleServiceInt;
 import com.rays.service.UserServiceInt;
 
 @RestController
@@ -36,6 +38,9 @@ public class UserCtl extends BaseCtl {
 	public UserServiceInt userService;
 
 	@Autowired
+	public RoleServiceInt roleService;
+
+	@Autowired
 	public AttachmentServiceInt attachmentService;
 
 	@GetMapping("preload")
@@ -43,11 +48,11 @@ public class UserCtl extends BaseCtl {
 
 		ORSResponse res = new ORSResponse();
 
-		UserDTO dto = new UserDTO();
+		RoleDTO dto = new RoleDTO();
 
-		List<DropDownList> userList = userService.search(dto, 0, 0);
+		List<DropDownList> roleList = roleService.search(dto, 0, 0);
 
-		res.addResult("userList", userList);
+		res.addResult("roleList", roleList);
 
 		return res;
 

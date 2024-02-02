@@ -56,6 +56,8 @@ public class LoginCtl extends BaseCtl {
 			return res;
 		}
 		UserDTO dto = (UserDTO) form.getDto();
+		dto.setRoleId(2L);
+
 		long pk = service.add(dto);
 		res.addData(pk);
 		res.addMessage("Data Registered Successfully..!!");

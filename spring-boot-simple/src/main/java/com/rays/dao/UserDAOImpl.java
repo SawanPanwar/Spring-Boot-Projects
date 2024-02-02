@@ -11,8 +11,10 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.rays.dto.RoleDTO;
 import com.rays.dto.UserDTO;
 
 @Repository
@@ -21,12 +23,22 @@ public class UserDAOImpl implements UserDAOInt {
 	@PersistenceContext
 	public EntityManager entityManager;
 
+	@Autowired
+	public RoleDAOInt roleDao;
+
+	public void populate(UserDTO dto) {
+		RoleDTO roleDto = roleDao.findByPk(dto.getRoleId());
+		dto.setRoleName(roleDto.getName());
+	}
+
 	public long add(UserDTO dto) {
+		populate(dto);
 		entityManager.persist(dto);
 		return dto.getId();
 	}
 
 	public void update(UserDTO dto) {
+		populate(dto);
 		entityManager.merge(dto);
 	}
 
@@ -84,6 +96,14 @@ public class UserDAOImpl implements UserDAOInt {
 
 			if (dto.getId() != null && dto.getId() > 0) {
 				predicateList.add(builder.equal(qRoot.get("id"), dto.getId()));
+			}
+
+			if (dto.getRoleId() != null && dto.getRoleId() > 0) {
+				predicateList.add(builder.equal(qRoot.get("roleId"), dto.getRoleId()));
+			}
+
+			if (dto.getDob() != null && dto.getDob().getTime() > 0) {
+				predicateList.add(builder.equal(qRoot.get("dob"), dto.getDob()));
 			}
 		}
 
